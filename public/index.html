@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Biblioteca Escolar</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>📚 Biblioteca Escolar</h1>
+    <div class="subtitle">Consulta de acervo para estudantes</div>
+  </div>
+  <nav class="tabs">
+    <button id="tabConsulta" class="active" onclick="mostrarView('consulta')">Consultar acervo</button>
+    <button id="tabAdmin" onclick="mostrarView('admin')">Área do professor</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- VIEW: CONSULTA (ESTUDANTES) -->
+  <section id="viewConsulta" class="view active">
+    <div class="search-bar">
+      <input type="text" id="q" placeholder="Buscar por título, autor, ISBN, sinopse..." onkeyup="if(event.key==='Enter') buscarLivros(1)"/>
+      <select id="fCategoria" onchange="buscarLivros(1)"><option value="">Categoria</option></select>
+      <select id="fTema" onchange="buscarLivros(1)"><option value="">Tema</option></select>
+      <select id="fIdioma" onchange="buscarLivros(1)"><option value="">Idioma</option></select>
+      <select id="fDisponivel" onchange="buscarLivros(1)">
+        <option value="">Disponibilidade</option>
+        <option value="1">Somente disponíveis</option>
+      </select>
+      <button class="btn" onclick="buscarLivros(1)">Buscar</button>
+    </div>
+    <div id="resultCount" style="margin-bottom:10px;color:#6b7280;font-size:.9rem;"></div>
+    <div id="gridBooks" class="grid-books"></div>
+    <div id="pagination" class="pagination"></div>
+  </section>
+
+  <!-- VIEW: LOGIN ADMIN -->
+  <section id="viewLogin" class="view">
+    <div class="login-box">
+      <h2>Login do Professor</h2>
+      <div class="field">
+        <label>Usuário</label>
+        <input type="text" id="loginUser" placeholder="professor" />
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="loginPass" placeholder="••••••••" onkeyup="if(event.key==='Enter') fazerLogin()"/>
+      </div>
+      <button class="btn" style="width:100%" onclick="fazerLogin()">Entrar</button>
+      <div id="loginError" class="error-msg"></div>
+      <div class="hint">Usuário/senha padrão configurados pelo administrador do sistema (arquivo .env).</div>
+    </div>
+  </section>
+
+  <!-- VIEW: PAINEL ADMIN -->
+  <section id="viewAdminPanel" class="view">
+    <div class="admin-header">
+      <div>Conectado como <strong id="adminUserLabel"></strong></div>
+      <div>
+        <button class="btn secondary" onclick="abrirTrocaSenha()">Trocar senha</button>
+        <button class="btn secondary" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div class="panel">
+        <h3>Cadastrar novo livro (OCR da capa)</h3>
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('capaInput').click()">
+          <img id="capaPreview" style="display:none" />
+          <div id="uploadHint">Clique para enviar a foto da capa do livro</div>
+        </div>
+        <input type="file" id="capaInput" accept="image/*" style="display:none" onchange="processarCapa(event)" />
+        <div id="ocrStatus"></div>
+
+        <form id="formLivro" class="form-grid" onsubmit="salvarLivro(event)">
+          <div class="full">
+            <label>Título *</label>
+            <input type="text" id="fTitulo" required />
+          </div>
+          <div>
+            <label>Autor</label>
+            <input type="text" id="fAutor" />
+          </div>
+          <div>
+            <label>Editora</label>
+            <input type="text" id="fEditora" />
+          </div>
+          <div>
+            <label>Categoria</label>
+            <input type="text" id="fCategoriaForm" placeholder="Ex: Ficção, Didático" list="listaCategorias"/>
+            <datalist id="listaCategorias"></datalist>
+          </div>
+          <div>
+            <label>Tema</label>
+            <input type="text" id="fTemaForm" placeholder="Ex: Aventura, Matemática" list="listaTemas"/>
+            <datalist id="listaTemas"></datalist>
+          </div>
+          <div>
+            <label>Ano</label>
+            <input type="number" id="fAno" />
+          </div>
+          <div>
+            <label>ISBN</label>
+            <input type="text" id="fIsbn" />
+          </div>
+          <div>
+            <label>Idioma</label>
+            <input type="text" id="fIdiomaForm" placeholder="Português" />
+          </div>
+          <div>
+            <label>Páginas</label>
+            <input type="number" id="fPaginas" />
+          </div>
+          <div>
+            <label>Exemplares</label>
+            <input type="number" id="fExemplares" value="1" min="1" />
+          </div>
+          <div>
+            <label>Localização (estante)</label>
+            <input type="text" id="fLocalizacao" placeholder="Ex: Estante B3" />
+          </div>
+          <div class="full">
+            <label>Sinopse</label>
+            <textarea id="fSinopse"></textarea>
+          </div>
+          <div class="full" style="display:flex; gap:10px;">
+            <button type="submit" class="btn" style="flex:1">Salvar livro</button>
+            <button type="button" class="btn secondary" onclick="limparFormulario()">Limpar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Acervo cadastrado</h3>
+        <div style="overflow-x:auto">
+        <table class="book-table" id="tabelaLivros">
+          <thead><tr><th></th><th>Título</th><th>Autor</th><th>Categoria</th><th>Disponíveis</th><th>Ações</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL DETALHE -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) fecharModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
