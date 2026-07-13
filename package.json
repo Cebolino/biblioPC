@@ -1,0 +1,21 @@
+{
+  "name": "biblioteca-escolar",
+  "version": "1.0.0",
+  "description": "Site de consulta de livros da biblioteca escolar com cadastro via OCR de capas",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/db/seed.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.5",
+    "tesseract.js": "^5.1.1",
+    "dotenv": "^16.4.5"
+  }
+}
