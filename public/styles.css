@@ -1,0 +1,120 @@
+:root {
+  --primary: #2b6cb0;
+  --primary-dark: #1a4971;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --text: #1a202c;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --success: #2f855a;
+  --danger: #c53030;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+header.topbar {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+header.topbar h1 { margin: 0; font-size: 1.4rem; }
+header.topbar .subtitle { font-size: .85rem; opacity: .85; }
+nav.tabs { display: flex; gap: 8px; }
+nav.tabs button {
+  background: rgba(255,255,255,0.15); border: none; color: white; padding: 8px 16px;
+  border-radius: 8px; cursor: pointer; font-size: .9rem; transition: .2s;
+}
+nav.tabs button.active { background: white; color: var(--primary-dark); font-weight: 600; }
+main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.view { display: none; }
+.view.active { display: block; }
+
+.search-bar {
+  display: flex; flex-wrap: wrap; gap: 10px; background: var(--card); padding: 16px;
+  border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 20px;
+}
+.search-bar input[type=text] { flex: 2; min-width: 200px; }
+.search-bar select { flex: 1; min-width: 140px; }
+input, select, textarea, button {
+  font-family: inherit; font-size: .95rem; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 8px; background: white;
+}
+button.btn { background: var(--primary); color: white; border: none; cursor: pointer; font-weight: 600; }
+button.btn:hover { background: var(--primary-dark); }
+button.btn.secondary { background: #edf2f7; color: var(--text); }
+button.btn.danger { background: var(--danger); color: white; }
+
+.grid-books {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 18px;
+}
+.book-card {
+  background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  cursor: pointer; transition: transform .15s; display: flex; flex-direction: column;
+}
+.book-card:hover { transform: translateY(-3px); }
+.book-card img { width: 100%; height: 240px; object-fit: cover; background: #dfe4ea; }
+.book-card .info { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.book-card .titulo { font-weight: 700; font-size: .95rem; line-height: 1.2; }
+.book-card .autor { font-size: .82rem; color: var(--muted); }
+.book-card .badges { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.badge { font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: #ebf4ff; color: var(--primary-dark); }
+.badge.ok { background: #f0fff4; color: var(--success); }
+.badge.no { background: #fff5f5; color: var(--danger); }
+
+.empty { text-align: center; color: var(--muted); padding: 60px 0; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none;
+  align-items: center; justify-content: center; z-index: 50; padding: 16px;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: white; border-radius: 14px; max-width: 640px; width: 100%; max-height: 90vh;
+  overflow-y: auto; padding: 24px; position: relative;
+}
+.modal .close-btn { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); }
+.detail-flex { display: flex; gap: 20px; flex-wrap: wrap; }
+.detail-flex img { width: 200px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.detail-info h2 { margin: 0 0 6px; }
+.detail-info p { margin: 4px 0; font-size: .92rem; }
+.detail-info .label { color: var(--muted); font-weight: 600; }
+
+/* Login */
+.login-box {
+  max-width: 380px; margin: 60px auto; background: var(--card); padding: 28px; border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+.login-box h2 { margin-top: 0; }
+.login-box label { display: block; font-size: .85rem; margin-bottom: 4px; color: var(--muted); }
+.login-box .field { margin-bottom: 14px; }
+.login-box input { width: 100%; }
+.error-msg { color: var(--danger); font-size: .85rem; margin-top: 8px; }
+.hint { font-size: .78rem; color: var(--muted); margin-top: 12px; }
+
+/* Admin panel */
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+.admin-grid { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 850px) { .admin-grid { grid-template-columns: 1fr; } }
+.panel { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.panel h3 { margin-top: 0; }
+.upload-area {
+  border: 2px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center;
+  color: var(--muted); cursor: pointer; margin-bottom: 12px;
+}
+.upload-area img { max-width: 100%; max-height: 220px; border-radius: 8px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid label { font-size: .82rem; color: var(--muted); display: block; margin-bottom: 4px; }
+.form-grid textarea { width: 100%; min-height: 70px; resize: vertical; }
+.form-grid input, .form-grid select { width: 100%; }
+.ocr-status { font-size: .85rem; padding: 8px 10px; border-radius: 8px; margin-bottom: 10px; }
+.ocr-status.loading { background: #ebf8ff; color: #2c5282; }
+.ocr-status.done { background: #f0fff4; color: var(--success); }
+.ocr-status.error { background: #fff5f5; color: var(--danger); }
+
+table.book-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+table.book-table th, table.book-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+table.book-table img { width: 36px; height: 50px; object-fit: cover; border-radius: 4px; vertical-align: middle; }
+table.book-table .actions button { margin-right: 6px; padding: 5px 10px; font-size: .78rem; }
+.pagination { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+.pagination button { padding: 6px 12px; }
